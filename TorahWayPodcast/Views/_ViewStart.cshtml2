@@ -1,0 +1,24 @@
+﻿@using System.Collections.Generic
+@using System.Linq
+@model List<TorahWayPodcast.Models.Shiur>
+
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0">
+    <channel>
+        <title>ricky rosario's blog</title>
+        <link>http://@Request.Url.Host</link>
+        <description>Blog RSS feed for rickyrosario.com</description>
+        <lastbuilddate>@model.First().DatePublished.Value.ToUniversalTime().ToString("r")</lastbuilddate>
+        <language>en-us</language>
+        @foreach (Post p in model) 
+        {
+            <item>
+                <title>@Html.Encode(p.Title)</title>
+                <link>http://@{ Request.Url.Host + Url.Action("ViewPostByName", new RouteValueDictionary(new { name = p.Name })); } </link>
+                <guid>http://@{ Request.Url.Host + Url.Action("ViewPostByName", new RouteValueDictionary(new { name = p.Name })); }</guid>
+                <pubdate>@p.DatePublished.Value.ToUniversalTime().ToString("r")</pubdate>
+                <description>@Html.Encode(p.Content)</description>
+            </item>
+        }
+    </channel>
+</rss>
