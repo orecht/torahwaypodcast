@@ -13,6 +13,13 @@ namespace TorahWayPodcast.Controllers
     {
         List<Shiur> f_Shiurim = new List<Shiur>();
 
+        public ActionResult Rss2()
+        {
+            PopulateFeed(); 
+            Response.ContentType = "application/xml";
+            return View (f_Shiurim); 
+        }
+
         public ActionResult Index()
         {
             PopulateFeed();
@@ -28,10 +35,10 @@ namespace TorahWayPodcast.Controllers
             List<SyndicationItem> items = new List<SyndicationItem>();
             foreach (Shiur s in f_Shiurim)
             {
-                SyndicationItem item = new SyndicationItem(s.Author, 
+                SyndicationItem item = new SyndicationItem(s.Rav, 
                                                             s.Subject, 
                                                             new Uri(s.Url), 
-                                                            s.Author+"_"+s.Date.ToString(), 
+                                                            s.Rav+"_"+s.DatePublished.ToString(), 
                                                             DateTime.Now);
                 items.Add(item);
             }
@@ -43,8 +50,8 @@ namespace TorahWayPodcast.Controllers
 
         private void PopulateFeed()
         {
-            f_Shiurim.Add(new Shiur() { Author = "Rav Bern", AuthorPosition = "Magid shiur, Machon Yaacov", Subject = "Why another shiur", Date = DateTime.Now - new TimeSpan(1, 0, 0, 0), Url = "http://torahway.org.uk/y1/s1.mp3" });
-            f_Shiurim.Add(new Shiur() { Author = "Rav Bern2", AuthorPosition = "Magid shiur, Machon Yaacov", Subject = "Awson shiur", Date = DateTime.Now - new TimeSpan(2, 0, 0, 0), Url = "http://torahway.org.uk/y1/s2.mp3" });
+            f_Shiurim.Add(new Shiur() { Rav = "Rav Bern", RavPosition = "Magid shiur, Machon Yaacov", Subject = "Why another shiur", DatePublished = DateTime.Now - new TimeSpan(1, 0, 0, 0), Url = "http://torahway.org.uk/y1/s1.mp3" });
+            f_Shiurim.Add(new Shiur() { Rav = "Rav Bern2", RavPosition = "Magid shiur, Machon Yaacov", Subject = "Awson shiur", DatePublished = DateTime.Now - new TimeSpan(2, 0, 0, 0), Url = "http://torahway.org.uk/y1/s2.mp3" });
         }
 
     }
