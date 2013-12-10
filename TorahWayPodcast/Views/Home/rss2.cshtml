@@ -30,7 +30,7 @@
         @foreach(TorahWayPodcast.Models.Shiur s in Model) { 
             <item>
                 <title>
-                    @s.Rav - @s.Subject
+                    @String.Format("{0:ddd dd/MM/yyy}", s.DatePublished)
                 </title>
                 <description>
                     <![CDATA[

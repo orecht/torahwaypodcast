@@ -8,6 +8,8 @@ using System.Net;
 using System.IO;
 using HtmlAgilityPack;
 
+using System.Globalization; // for date parsindg
+
 using TorahWayPodcast.Models;
 
 namespace TorahWayPodcast.Controllers
@@ -22,7 +24,7 @@ namespace TorahWayPodcast.Controllers
 
         public ActionResult ParseHtml()
         {
-            String ret = "";
+            String log = "";
 
             Uri baseURI = new Uri("http://www.torahway.org.uk/)");
             string requestUrl = "http://www.torahway.org.uk/";
@@ -46,15 +48,28 @@ namespace TorahWayPodcast.Controllers
                     string[] tab = strRavSubject.Split('-');
 
                     Shiur shiur = new Shiur();
-                    shiur.Url = link.AbsoluteUri;
-                    shiur.DatePublished = DateTime.Parse(strDate);
                     shiur.Rav = tab[0].Trim(new char[] { '\r' }).Trim();
                     shiur.Subject = tab[1].Trim(new char[] { '\r' }).Trim();
+                    shiur.Url = link.AbsoluteUri;
+
+                    System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("en-GB");
+                    log += "parsing date " + strDate + "\n";
+                    bool success = true;
+                    try
+                    {
+                        shiur.DatePublished = DateTime.Parse(strDate, ci);
+                    }
+                    catch
+                    {
+                        // eat it 
+                        success = false;
+                    }
+                    log += success ? "...success !" : "...FAIL";
 
                     Shiurim.Instance.Add(shiur);
                 }
             }
-            return Content(ret);
+            return Content(log);
         }
 
     }
