@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.ServiceModel.Syndication;
+using System.Net;
+using System.IO;
+using HtmlAgilityPack;
 
 using TorahWayPodcast.Models;
 
@@ -11,47 +14,47 @@ namespace TorahWayPodcast.Controllers
 {
     public class HomeController : Controller
     {
-        List<Shiur> f_Shiurim = new List<Shiur>();
-
         public ActionResult Rss2()
         {
-            PopulateFeed(); 
             Response.ContentType = "application/xml";
-            return View (f_Shiurim); 
+            return View (Shiurim.Instance); 
         }
 
-        public ActionResult Index()
+        public ActionResult ParseHtml()
         {
-            PopulateFeed();
+            String ret = "";
 
-            SyndicationFeed feed =
-                new SyndicationFeed("The Torah Way Podcast",
-                                    "Get the Torah Way in your Podcast reader",
-                                    new Uri("http://"+Request.Url.Host),
-                                    "TorahWayPodcastID",
-                                    DateTime.Now);
+            Uri baseURI = new Uri("http://www.torahway.org.uk/)");
+            string requestUrl = "http://www.torahway.org.uk/";
+            string rawHtml = String.Empty;
 
-
-            List<SyndicationItem> items = new List<SyndicationItem>();
-            foreach (Shiur s in f_Shiurim)
+            HttpWebRequest http = (HttpWebRequest)HttpWebRequest.Create(requestUrl);
+            HttpWebResponse response = (HttpWebResponse)http.GetResponse();
+            using (StreamReader sr = new StreamReader(response.GetResponseStream()))
             {
-                SyndicationItem item = new SyndicationItem(s.Rav, 
-                                                            s.Subject, 
-                                                            new Uri(s.Url), 
-                                                            s.Rav+"_"+s.DatePublished.ToString(), 
-                                                            DateTime.Now);
-                items.Add(item);
+                HtmlDocument doc = new HtmlDocument();
+                doc.Load(sr);
+                Shiurim.Instance.Clear();
+                //doc.Load("c:\\temp\\torahway_home.html");
+                var n = doc.DocumentNode.SelectNodes("/html/body/center/font/font/b/td/table/tr/td/table");
+                foreach (var nn in n.Take(10))
+                {
+                    Uri link = new Uri(baseURI, nn.SelectSingleNode("./tr/td/a").Attributes["href"].Value);
+                    string strDate = nn.SelectSingleNode("./tr/td[1]").InnerText.Trim();
+                    string strRavSubject = nn.SelectSingleNode("./tr/td[2]").InnerText;
+                    strRavSubject = strRavSubject.Replace("(MP3 to follow, Click for WMA Format)", "");
+                    string[] tab = strRavSubject.Split('-');
+
+                    Shiur shiur = new Shiur();
+                    shiur.Url = link.AbsoluteUri;
+                    shiur.DatePublished = DateTime.Parse(strDate);
+                    shiur.Rav = tab[0].Trim(new char[] { '\r' }).Trim();
+                    shiur.Subject = tab[1].Trim(new char[] { '\r' }).Trim();
+
+                    Shiurim.Instance.Add(shiur);
+                }
             }
-            
-            feed.Items = items;
-
-            return new RssActionResult() { Feed = feed };
-        }
-
-        private void PopulateFeed()
-        {
-            f_Shiurim.Add(new Shiur() { Rav = "Rav Bern", RavPosition = "Magid shiur, Machon Yaacov", Subject = "Why another shiur", DatePublished = DateTime.Now - new TimeSpan(1, 0, 0, 0), Url = "http://torahway.org.uk/y1/s1.mp3" });
-            f_Shiurim.Add(new Shiur() { Rav = "Rav Bern2", RavPosition = "Magid shiur, Machon Yaacov", Subject = "Awson shiur", DatePublished = DateTime.Now - new TimeSpan(2, 0, 0, 0), Url = "http://torahway.org.uk/y1/s2.mp3" });
+            return Content(ret);
         }
 
     }

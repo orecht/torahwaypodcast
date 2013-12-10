@@ -27,7 +27,7 @@
             <itunes:category text="Torah" />
         </itunes:category>
         <atom:link type="application/rss+xml" href="@Request.Url" rel="self" />
-        @{var s = Model.First(); }
+        @foreach(TorahWayPodcast.Models.Shiur s in Model) { 
             <item>
                 <title>
                     @s.Rav - @s.Subject
@@ -44,9 +44,12 @@
                     @s.Url
                 </comments>
                 <pubdate>@s.DatePublished.ToLongDateString()</pubdate>
+
                 <dcterms:modified>@String.Format("{0:yyyy-MM-dd}", s.DatePublished)</dcterms:modified>
                 <dcterms:created>@String.Format("{0:yyyy-MM-dd}", s.DatePublished)</dcterms:created>
-                <link>http://www.toahway.org.uk</link>
+                @Html.Raw("<link>")
+                    @s.Url
+                @Html.Raw("</link>")
                 <dc:creator>(c) The Torah Way NW London</dc:creator>
                 <itunes:keywords />
                 <enclosure url="@s.Url" type="audio/mpeg" length="@s.FileSize" />
@@ -61,5 +64,6 @@
                     @s.Description
                 </itunes:subtitle>
             </item>
+        }
     </channel>
 </rss>
