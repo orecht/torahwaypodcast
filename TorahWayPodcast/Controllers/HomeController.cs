@@ -24,52 +24,67 @@ namespace TorahWayPodcast.Controllers
 
         public ActionResult ParseHtml()
         {
-            String log = "";
+            string log = "";
 
-            Uri baseURI = new Uri("http://www.torahway.org.uk/)");
-            string requestUrl = "http://www.torahway.org.uk/";
-            string rawHtml = String.Empty;
-
-            HttpWebRequest http = (HttpWebRequest)HttpWebRequest.Create(requestUrl);
-            HttpWebResponse response = (HttpWebResponse)http.GetResponse();
-            using (StreamReader sr = new StreamReader(response.GetResponseStream()))
+            try
             {
-                HtmlDocument doc = new HtmlDocument();
-                doc.Load(sr);
-                Shiurim.Instance.Clear();
-                //doc.Load("c:\\temp\\torahway_home.html");
-                var n = doc.DocumentNode.SelectNodes("/html/body/center/font/font/b/td/table/tr/td/table");
-                foreach (var nn in n.Take(10))
+                Uri baseURI = new Uri("http://www.torahway.org.uk/)");
+                string requestUrl = "http://www.torahway.org.uk/";
+                string rawHtml = String.Empty;
+
+                HttpWebRequest http = (HttpWebRequest)HttpWebRequest.Create(requestUrl);
+                HttpWebResponse response = (HttpWebResponse)http.GetResponse();
+                using (StreamReader sr = new StreamReader(response.GetResponseStream()))
                 {
-                    Uri link = new Uri(baseURI, nn.SelectSingleNode("./tr/td/a").Attributes["href"].Value);
-                    string strDate = nn.SelectSingleNode("./tr/td[1]").InnerText.Trim();
-                    string strRavSubject = nn.SelectSingleNode("./tr/td[2]").InnerText;
-                    strRavSubject = strRavSubject.Replace("(MP3 to follow, Click for WMA Format)", "");
-                    string[] tab = strRavSubject.Split('-');
-
-                    Shiur shiur = new Shiur();
-                    shiur.Rav = tab[0].Trim(new char[] { '\r' }).Trim();
-                    shiur.Subject = tab[1].Trim(new char[] { '\r' }).Trim();
-                    shiur.Url = link.AbsoluteUri;
-
-                    System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("en-GB");
-                    log += "parsing date " + strDate + "\n";
-                    bool success = true;
-                    try
+                    HtmlDocument doc = new HtmlDocument();
+                    doc.Load(sr);
+                    Shiurim.Instance.Clear();
+                    HtmlNodeCollection nodelistShiur = doc.DocumentNode.SelectNodes("/html/body/center/font/font/b/td/table/tr/td/table/tr");
+                    foreach (HtmlNode nn in nodelistShiur)
                     {
-                        shiur.DatePublished = DateTime.Parse(strDate, ci);
-                    }
-                    catch
-                    {
-                        // eat it 
-                        success = false;
-                    }
-                    log += success ? "...success !" : "...FAIL";
+                        if (Shiurim.Instance.Count > 10)
+                            break; 
 
-                    Shiurim.Instance.Add(shiur);
+                        if (nn.SelectSingleNode("./td/a") != null)
+                        {
+                            Uri link = new Uri(baseURI, nn.SelectSingleNode("./td/a").Attributes["href"].Value);
+                            string strDate = nn.SelectSingleNode("./td[1]").InnerText.Trim();
+                            string strRavSubject = nn.SelectSingleNode("./td[2]").InnerText;
+                            strRavSubject = strRavSubject.Replace("(MP3 to follow, Click for WMA Format)", "");
+                            string[] tab = strRavSubject.Split('-');
+
+                            Shiur shiur = new Shiur();
+                            shiur.Rav = tab[0].Trim(new char[] { '\r' }).Trim();
+                            shiur.Subject = tab[1].Trim(new char[] { '\r' }).Trim();
+                            shiur.Url = link.AbsoluteUri;
+
+                            System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("en-GB");
+                            log += "parsing date " + strDate;
+                            bool success = true;
+                            try
+                            {
+                                shiur.DatePublished = DateTime.Parse(strDate, ci);
+                            }
+                            catch
+                            {
+                                // eat it 
+                                success = false;
+                            }
+                            log += (success ? "...success !" : "...FAIL") + "\n";
+
+                            Shiurim.Instance.Add(shiur);
+                        }
+                    }
                 }
             }
-            return Content(log);
+            catch (Exception e)
+            {
+                log += "Caught exception:" + e.Message;
+                if (e != null && e.InnerException != null)
+                    log += e.InnerException.Message;
+            }
+
+            return Content(log, "text/plain");
         }
 
     }
