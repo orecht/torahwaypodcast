@@ -24,7 +24,7 @@ namespace TorahWayPodcast.Controllers
 
         public ActionResult ParseHtml()
         {
-            string log = "";
+            string log = "";  
 
             try
             {
