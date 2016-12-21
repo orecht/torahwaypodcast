@@ -7,6 +7,7 @@ namespace TorahWayPodcast.Models
 {
     public class Shiurim : List<Shiur>
     {
+        /*
         static private Shiurim f_instance = new Shiurim();
         static public Shiurim Instance
         {
@@ -20,5 +21,6 @@ namespace TorahWayPodcast.Models
             : base()
         {
         }
+         * */
     }
 }

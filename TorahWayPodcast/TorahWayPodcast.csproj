@@ -135,9 +135,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Storage\IStorage.cs" />
     <Compile Include="Models\Shiur.cs" />
     <Compile Include="Models\Shiurim.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Storage\CacheStorage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\torahway_1400.png" />

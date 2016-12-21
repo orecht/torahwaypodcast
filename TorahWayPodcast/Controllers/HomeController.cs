@@ -11,6 +11,7 @@ using HtmlAgilityPack;
 using System.Globalization; // for date parsindg
 
 using TorahWayPodcast.Models;
+using TorahWayPodcast.Storage;
 
 namespace TorahWayPodcast.Controllers
 {
@@ -19,7 +20,7 @@ namespace TorahWayPodcast.Controllers
         public ActionResult Rss2()
         {
             Response.ContentType = "application/xml";
-            return View (Shiurim.Instance.OrderByDescending(s => s.DatePublished)); 
+            return View(new CacheStorage().Read().OrderByDescending(s => s.DatePublished)); 
         }
 
         public ActionResult ParseHtml()
@@ -32,17 +33,19 @@ namespace TorahWayPodcast.Controllers
                 string requestUrl = "http://www.torahway.org.uk/";
                 string rawHtml = String.Empty;
 
+                Shiurim shiurim = new Shiurim();
+
                 HttpWebRequest http = (HttpWebRequest)HttpWebRequest.Create(requestUrl);
                 HttpWebResponse response = (HttpWebResponse)http.GetResponse();
                 using (StreamReader sr = new StreamReader(response.GetResponseStream()))
                 {
                     HtmlDocument doc = new HtmlDocument();
                     doc.Load(sr);
-                    Shiurim.Instance.Clear();
+
                     HtmlNodeCollection nodelistShiur = doc.DocumentNode.SelectNodes("/html/body/center/font/font/b/td/table/tr/td/table/tr");
                     foreach (HtmlNode nn in nodelistShiur)
                     {
-                        if (Shiurim.Instance.Count > 10)
+                        if (shiurim.Count > 10)
                             break; 
 
                         if (nn.SelectSingleNode("./td/a") != null)
@@ -72,10 +75,12 @@ namespace TorahWayPodcast.Controllers
                             }
                             log += (success ? "...success !" : "...FAIL") + "\n";
 
-                            Shiurim.Instance.Add(shiur);
+                            shiurim.Add(shiur);
                         }
                     }
                 }
+
+                new CacheStorage().Write(shiurim);
             }
             catch (Exception e)
             {
