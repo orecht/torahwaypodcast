@@ -7,6 +7,7 @@ using System.ServiceModel.Syndication;
 using System.Net;
 using System.IO;
 using HtmlAgilityPack;
+using System.Configuration;
 
 using System.Globalization; // for date parsindg
 
@@ -35,6 +36,9 @@ namespace TorahWayPodcast.Controllers
 
                 Shiurim shiurim = new Shiurim();
 
+                int maxFeedSize = 10;
+                int.TryParse(ConfigurationManager.AppSettings["ShiurimInFeed"], out maxFeedSize);
+
                 HttpWebRequest http = (HttpWebRequest)HttpWebRequest.Create(requestUrl);
                 HttpWebResponse response = (HttpWebResponse)http.GetResponse();
                 using (StreamReader sr = new StreamReader(response.GetResponseStream()))
@@ -45,7 +49,7 @@ namespace TorahWayPodcast.Controllers
                     HtmlNodeCollection nodelistShiur = doc.DocumentNode.SelectNodes("/html/body/center/font/font/b/td/table/tr/td/table/tr");
                     foreach (HtmlNode nn in nodelistShiur)
                     {
-                        if (shiurim.Count > 10)
+                        if (shiurim.Count > maxFeedSize)
                             break; 
 
                         if (nn.SelectSingleNode("./td/a") != null)
