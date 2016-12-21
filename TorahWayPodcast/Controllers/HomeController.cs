@@ -19,7 +19,7 @@ namespace TorahWayPodcast.Controllers
         public ActionResult Rss2()
         {
             Response.ContentType = "application/xml";
-            return View (Shiurim.Instance); 
+            return View (Shiurim.Instance.OrderByDescending(s => s.DatePublished); 
         }
 
         public ActionResult ParseHtml()
