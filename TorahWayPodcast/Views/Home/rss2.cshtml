@@ -37,10 +37,13 @@
         {
             <item>
 
-                @{ string description = String.Format("{0}: {1}", s.Rav, s.Subject);}
+                @{ 
+                    string title = String.Format("{0}: {1}", s.Rav, s.Subject);
+                    string description = String.Format("Shiur given on {0:ddd dd/MM/yyy} for The Torah Way NW London at Kehilas Ohel Moshe.", s.DatePublished);
+                }
 
                 <title>
-                    @String.Format("{0:ddd dd/MM/yyy}", s.DatePublished)
+                    @title
                 </title>
                 <description>
                     @description
@@ -66,7 +69,7 @@
                 <itunes:explicit>clean</itunes:explicit>
                 <itunes:order>1</itunes:order>
                 <itunes:summary>
-                    @description
+                    @title
                 </itunes:summary>
                 <itunes:subtitle>
                     @description
