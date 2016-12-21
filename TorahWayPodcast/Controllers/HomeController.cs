@@ -49,9 +49,6 @@ namespace TorahWayPodcast.Controllers
                     HtmlNodeCollection nodelistShiur = doc.DocumentNode.SelectNodes("/html/body/center/font/font/b/td/table/tr/td/table/tr");
                     foreach (HtmlNode nn in nodelistShiur)
                     {
-                        if (shiurim.Count > maxFeedSize)
-                            break; 
-
                         if (nn.SelectSingleNode("./td/a") != null)
                         {
                             Uri link = new Uri(baseURI, nn.SelectSingleNode("./td/a").Attributes["href"].Value);
