@@ -18,10 +18,12 @@ namespace TorahWayPodcast.Controllers
 {
     public class HomeController : Controller
     {
+        private IStorage<Shiurim> Storage = new FileAndCacheStorage();
+
         public ActionResult Rss2()
         {
             Response.ContentType = "application/xml";
-            return View(new CacheStorage().Read().OrderByDescending(s => s.DatePublished)); 
+            return View(Storage.Read().OrderByDescending(s => s.DatePublished)); 
         }
 
         public ActionResult ParseHtml()
@@ -81,7 +83,7 @@ namespace TorahWayPodcast.Controllers
                     }
                 }
 
-                new CacheStorage().Write(shiurim);
+                Storage.Write(shiurim);
             }
             catch (Exception e)
             {

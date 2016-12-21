@@ -5,6 +5,7 @@ using System.Web;
 
 namespace TorahWayPodcast.Models
 {
+    [Serializable]
     public class Shiur
     {
         public string Rav { get; set; }

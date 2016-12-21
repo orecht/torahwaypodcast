@@ -135,6 +135,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Storage\FileAndCacheStorage.cs" />
+    <Compile Include="Storage\FIleStorage.cs" />
     <Compile Include="Storage\IStorage.cs" />
     <Compile Include="Models\Shiur.cs" />
     <Compile Include="Models\Shiurim.cs" />
