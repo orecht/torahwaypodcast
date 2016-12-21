@@ -10,6 +10,11 @@
         <language>en-GB</language>
         <generator>Oren's little concoction</generator>
         <pubdate>@DateTime.Now.ToLongDateString()</pubdate>
+        <image>
+            <title>Start your day the Torah Way</title>
+            <url>http://@Request.Url.Authority/Content/torahway_50.pngg</url>
+            <link>http://torahway.org.uk</link>
+        </image>
         <itunes:keywords>
             torah,shirur,rabbi,london
         </itunes:keywords>
@@ -26,16 +31,19 @@
         <itunes:category text="Judaism">
             <itunes:category text="Torah" />
         </itunes:category>
+
         <atom:link type="application/rss+xml" href="@Request.Url" rel="self" />
-        @foreach(TorahWayPodcast.Models.Shiur s in Model) { 
+        @foreach (TorahWayPodcast.Models.Shiur s in Model)
+        {
             <item>
+
+                @{ string description = String.Format("{0}: {1}", s.Rav, s.Subject);}
+
                 <title>
                     @String.Format("{0:ddd dd/MM/yyy}", s.DatePublished)
                 </title>
                 <description>
-                    <![CDATA[
-                    <img src="http://@Request.Url.Authority/Content/torahway_50.png" alt="itunes pic" /><br />@s.Description
-                    ]]>
+                    @description
                 </description>
                 <guid ispermalink="true">
                     @s.Url
@@ -48,7 +56,7 @@
                 <dcterms:modified>@String.Format("{0:yyyy-MM-dd}", s.DatePublished)</dcterms:modified>
                 <dcterms:created>@String.Format("{0:yyyy-MM-dd}", s.DatePublished)</dcterms:created>
                 @Html.Raw("<link>")
-                    @s.Url
+                @s.Url
                 @Html.Raw("</link>")
                 <dc:creator>(c) The Torah Way NW London</dc:creator>
                 <itunes:keywords />
@@ -58,10 +66,10 @@
                 <itunes:explicit>clean</itunes:explicit>
                 <itunes:order>1</itunes:order>
                 <itunes:summary>
-                    @s.Description
+                    @description
                 </itunes:summary>
                 <itunes:subtitle>
-                    @s.Description
+                    @description
                 </itunes:subtitle>
             </item>
         }

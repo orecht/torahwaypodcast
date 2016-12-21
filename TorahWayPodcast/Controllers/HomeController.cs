@@ -55,7 +55,7 @@ namespace TorahWayPodcast.Controllers
 
                             Shiur shiur = new Shiur();
                             shiur.Rav = tab[0].Trim(new char[] { '\r', '"' }).Trim();
-                            shiur.Subject = tab[1].Trim(new char[] { '\r', '"' }).Trim();
+                            shiur.Subject = tab[1].Trim().Trim(new char[] { '"' });
                             shiur.Url = link.AbsoluteUri;
 
                             System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("en-GB");

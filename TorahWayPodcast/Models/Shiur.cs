@@ -14,12 +14,5 @@ namespace TorahWayPodcast.Models
         public long FileSize { get; set; } // in bytes
         public long Duration { get; set; } // in seconds
         public DateTime DatePublished { get; set; }
-        public string Description
-        {
-            get
-            {
-                return String.Format("{0}\n{1}\n{2}", Rav, RavPosition, Subject);
-            }
-        }
     }
 }
