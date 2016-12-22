@@ -98,51 +98,5 @@ namespace TorahWayPodcast.Controllers
 
             return Content(log, "text/plain");
         }
-
-        public ActionResult Debug()
-        {
-            string log = "";
-
-            //string path = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
-            string p = HttpContext.Server.MapPath("~");
-
-            Action<string> permissions = (path) =>
-            {
-                var dSecurity = Directory.GetAccessControl(path);
-                foreach (FileSystemAccessRule rule in dSecurity.GetAccessRules(true, true, typeof(NTAccount)))
-                {
-                    log += string.Format("Dir: {0} Account:{1} {2}\n", path, rule.IdentityReference.Value, rule.FileSystemRights.ToString());
-                }
-            };
-
-            permissions(p);
-            foreach (var d in Directory.GetDirectories(p))
-            {
-                permissions(d);
-            }
-
-            return Content(log, "text/plain");
-        }
-
-        public ActionResult Debug2()
-        {
-            string log = "";
-
-            string p = HttpContext.Server.MapPath("~");
-
-            try
-            {
-                new FileStorage().Write(new Shiurim());
-                log += "successufully written shiurim.dat file\n";
-            }
-            catch (Exception e)
-            {
-                log += "Caught exception:" + e.Message;
-                if (e != null && e.InnerException != null)
-                    log += e.InnerException.Message;
-            }
-
-            return Content(log, "text/plain");
-        }
     }
 }
