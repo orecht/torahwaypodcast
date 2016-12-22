@@ -41,13 +41,6 @@ namespace TorahWayPodcast.Storage
 
         public void Write(Shiurim shiurim)
         {
-            // Create App_Data dir if it does not exist
-            var dir = Path.GetDirectoryName(FileName);
-            if (!Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
-
             FileStream fs = new FileStream(FileName, FileMode.OpenOrCreate);
 
             // Construct a BinaryFormatter and use it to serialize the data to the stream.
