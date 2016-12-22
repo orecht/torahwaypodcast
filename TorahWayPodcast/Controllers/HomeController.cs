@@ -42,9 +42,6 @@ namespace TorahWayPodcast.Controllers
 
                 Shiurim shiurim = new Shiurim();
 
-                int maxFeedSize = 10;
-                int.TryParse(ConfigurationManager.AppSettings["ShiurimInFeed"], out maxFeedSize);
-
                 HttpWebRequest http = (HttpWebRequest)HttpWebRequest.Create(requestUrl);
                 HttpWebResponse response = (HttpWebResponse)http.GetResponse();
                 using (StreamReader sr = new StreamReader(response.GetResponseStream()))
