@@ -3,7 +3,7 @@ branch-defaults:
     environment: null
     group_suffix: null
 global:
-  application_name: torahwaypodcast2
+  application_name: TorahWayPodcast
   branch: null
   default_platform: IIS 7.5
   default_region: us-west-2

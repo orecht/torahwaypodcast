@@ -144,6 +144,7 @@
     <Compile Include="Storage\CacheStorage.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\dummy.txt" />
     <Content Include="Content\torahway_1400.png" />
     <Content Include="Content\torahway_50.png" />
     <Content Include="Global.asax" />
@@ -161,7 +162,6 @@
     <Content Include="Views\Home\rss2.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
