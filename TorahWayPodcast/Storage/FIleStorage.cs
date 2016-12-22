@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-
+//using System.Configuration;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 
@@ -10,14 +10,14 @@ namespace TorahWayPodcast.Storage
 {
     public class FileStorage : IStorage<Shiurim>
     {
-        private string fileName = "Shiurim.dat";
+        private string FileName;
 
         public Shiurim Read()
         {
-            if (File.Exists(fileName))
+            if (File.Exists(FileName))
             {
                 // Open the file containing the data that you want to deserialize.
-                FileStream fs = new FileStream(fileName, FileMode.Open);
+                FileStream fs = new FileStream(FileName, FileMode.Open);
                 try
                 {
                     BinaryFormatter formatter = new BinaryFormatter();
@@ -42,7 +42,7 @@ namespace TorahWayPodcast.Storage
         public void Write(Shiurim shiurim)
         {
 
-            FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate);
+            FileStream fs = new FileStream(FileName, FileMode.OpenOrCreate);
 
             // Construct a BinaryFormatter and use it to serialize the data to the stream.
             BinaryFormatter formatter = new BinaryFormatter();
@@ -52,12 +52,17 @@ namespace TorahWayPodcast.Storage
             }
             catch (SerializationException e)
             {
-                throw new Exception(("Failed to serialize. Reason: " + e.Message);
+                throw new Exception("Failed to serialize. Reason: " + e.Message);
             }
             finally
             {
                 fs.Close();
             }
+        }
+
+        public FileStorage()
+        {
+            FileName = System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/shiurim.dat");
         }
     }
 }
