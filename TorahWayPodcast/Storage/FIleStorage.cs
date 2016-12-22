@@ -68,7 +68,10 @@ namespace TorahWayPodcast.Storage
 
         public FileStorage()
         {
-            FileName = System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/shiurim.dat");
+            // See discussion http://stackoverflow.com/a/4243857/4628203
+            string path = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
+
+            FileName = Path.Combine(path, "shiurim.dat");
         }
     }
 }
