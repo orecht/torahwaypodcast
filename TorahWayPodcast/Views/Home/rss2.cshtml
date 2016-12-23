@@ -11,7 +11,7 @@
         </description>
         <language>en-GB</language>
         <generator>Oren's little concoction</generator>
-        <pubdate>@DateTime.Now.ToRFC822Date()</pubdate>
+        <pubdate>@DateTime.Now.ToRFC822DateGMT()</pubdate>
         <image>
             <title>Start your day the Torah Way</title>
             <url>http://@Request.Url.Authority/Content/torahway_50.png</url>
@@ -56,7 +56,7 @@
                 <comments>
                     @s.Url
                 </comments>
-                <pubdate>@s.DatePublished.ToRFC822Date()</pubdate>
+                <pubdate>@s.DatePublished.ToRFC822DateGMT()</pubdate>
 
                 <dcterms:modified>@String.Format("{0:yyyy-MM-dd}", s.DatePublished)</dcterms:modified>
                 <dcterms:created>@String.Format("{0:yyyy-MM-dd}", s.DatePublished)</dcterms:created>

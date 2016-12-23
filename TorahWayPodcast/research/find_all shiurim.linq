@@ -29,7 +29,8 @@ rssWriter.Close();
 	*/
 	
 	DateTime.Now.ToString("ddd, dd MMM yyyy HH:mm:ss zzzz").Dump();
-	GetRFC822Date(DateTime.Now).Dump();
+	//GetRFC822Date(DateTime.Now).Dump();
+	DateTime.Now.ToRFC822Date().Dump();
 	
 	return;
 	
@@ -78,12 +79,12 @@ rssWriter.Close();
 
 // Define other methods and classes here
 
-public stsic class DateTimeExtention
+public static class DateTimeExtention
 {
-	static string ToRFC822Date(this DateTime date)
+	public static string ToRFC822Date(this DateTime date)
 	{
 	
-		int offset = TimeZone.CurrentTimeZone.GetUtcOffset(thisDateTime.Now).Hours;
+		int offset = TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).Hours;
 		
 		string timeZone = "+"+ offset.ToString().PadLeft(2,'0');
 		
@@ -99,5 +100,10 @@ public stsic class DateTimeExtention
 		}
 		return date.ToString("ddd, dd MMM yyyy HH:mm:ss "+ timeZone.PadRight(5,'0'));
 	
+	}
+	
+	public static string ToRFC822DateGMT(this DateTime date)
+	{
+		return date.ToString("ddd, dd MMM yyyy HH:mm:ss GMT");
 	}
  }

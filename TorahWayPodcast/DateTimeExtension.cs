@@ -27,5 +27,10 @@ namespace TorahWayPodcast
             return date.ToString("ddd, dd MMM yyyy HH:mm:ss " + timeZone.PadRight(5, '0'));
 
         }
+
+        public static string ToRFC822DateGMT(this DateTime date)
+        {
+            return date.ToString("ddd, dd MMM yyyy HH:mm:ss ")+ "GMT";
+        }
     }
 }
