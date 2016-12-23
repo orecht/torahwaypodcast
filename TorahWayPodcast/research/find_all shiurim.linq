@@ -1,7 +1,9 @@
 <Query Kind="Program">
   <Reference Relative="..\bin\HtmlAgilityPack.dll">E:\GitHub\torahwaypodcast\TorahWayPodcast\bin\HtmlAgilityPack.dll</Reference>
+  <Reference>&lt;RuntimeDirectory&gt;\System.ServiceModel.dll</Reference>
   <Reference Relative="..\bin\TorahWayPodcast.dll">E:\GitHub\torahwaypodcast\TorahWayPodcast\bin\TorahWayPodcast.dll</Reference>
   <Namespace>HtmlAgilityPack</Namespace>
+  <Namespace>System.ServiceModel.Syndication</Namespace>
   <Namespace>TorahWayPodcast.Models</Namespace>
 </Query>
 
@@ -12,6 +14,24 @@ void Main()
 	
 	string log = "";
 	var shiurim = new Shiurim();
+	/*
+	SyndicationItem rssItem = new SyndicationItem("title");
+	rssItem.PublishDate = DateTime.Now;
+	
+	//XmlWriter rssWriter = XmlWriter.Create("RssItem.xml");
+	StringBuilder sb = new StringBuilder();
+	XmlWriter rssWriter = XmlWriter.Create(sb);
+Rss20ItemFormatter formatter = new Rss20ItemFormatter(rssItem);
+formatter.WriteTo(rssWriter);
+rssWriter.Close();
+	
+	sb.ToString().Dump();
+	*/
+	
+	DateTime.Now.ToString("ddd, dd MMM yyyy HH:mm:ss zzzz").Dump();
+	GetRFC822Date(DateTime.Now).Dump();
+	
+	return;
 	
 	                    HtmlDocument doc = new HtmlDocument();
 	                    doc.Load(file);
@@ -58,3 +78,26 @@ void Main()
 
 // Define other methods and classes here
 
+public stsic class DateTimeExtention
+{
+	static string ToRFC822Date(this DateTime date)
+	{
+	
+		int offset = TimeZone.CurrentTimeZone.GetUtcOffset(thisDateTime.Now).Hours;
+		
+		string timeZone = "+"+ offset.ToString().PadLeft(2,'0');
+		
+		
+		
+		if(offset < 0)
+		{
+		
+		int i = offset * -1;
+		
+		timeZone = "-"+ i.ToString().PadLeft(2,'0');
+		
+		}
+		return date.ToString("ddd, dd MMM yyyy HH:mm:ss "+ timeZone.PadRight(5,'0'));
+	
+	}
+ }
