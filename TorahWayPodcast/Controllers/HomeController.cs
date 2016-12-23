@@ -49,38 +49,36 @@ namespace TorahWayPodcast.Controllers
                     HtmlDocument doc = new HtmlDocument();
                     doc.Load(sr);
 
-                    HtmlNodeCollection nodelistShiur = doc.DocumentNode.SelectNodes("/html/body/center/font/font/b/td/table/tr/td/table/tr");
+                    string xpath = "//table/tr/td/table/tr/td/a/../..";
+                    HtmlNodeCollection nodelistShiur = doc.DocumentNode.SelectNodes("//table/tr/td/table/tr/td/a/../..");
                     foreach (HtmlNode nn in nodelistShiur)
                     {
-                        if (nn.SelectSingleNode("./td/a") != null)
+                        Uri link = new Uri(baseURI, nn.SelectSingleNode("./td/a").Attributes["href"].Value);
+                        string strDate = nn.SelectSingleNode("./td[1]").InnerText.Trim();
+                        string strRavSubject = nn.SelectSingleNode("./td[2]").InnerText;
+                        strRavSubject = strRavSubject.Replace("(MP3 to follow, Click for WMA Format)", "");
+                        string[] tab = strRavSubject.Split('-');
+
+                        Shiur shiur = new Shiur();
+                        shiur.Rav = tab[0].Trim(new char[] { '\r', '"' }).Trim();
+                        shiur.Subject = tab[1].Trim().Trim(new char[] { '"' });
+                        shiur.Url = link.AbsoluteUri;
+
+                        System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("en-GB");
+                        log += "parsing date " + strDate;
+                        bool success = true;
+                        try
                         {
-                            Uri link = new Uri(baseURI, nn.SelectSingleNode("./td/a").Attributes["href"].Value);
-                            string strDate = nn.SelectSingleNode("./td[1]").InnerText.Trim();
-                            string strRavSubject = nn.SelectSingleNode("./td[2]").InnerText;
-                            strRavSubject = strRavSubject.Replace("(MP3 to follow, Click for WMA Format)", "");
-                            string[] tab = strRavSubject.Split('-');
-
-                            Shiur shiur = new Shiur();
-                            shiur.Rav = tab[0].Trim(new char[] { '\r', '"' }).Trim();
-                            shiur.Subject = tab[1].Trim().Trim(new char[] { '"' });
-                            shiur.Url = link.AbsoluteUri;
-
-                            System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("en-GB");
-                            log += "parsing date " + strDate;
-                            bool success = true;
-                            try
-                            {
-                                shiur.DatePublished = DateTime.Parse(strDate, ci);
-                            }
-                            catch
-                            {
-                                // eat it 
-                                success = false;
-                            }
-                            log += (success ? "...success !" : "...FAIL") + "\n";
-
-                            shiurim.Add(shiur);
+                            shiur.DatePublished = DateTime.Parse(strDate, ci);
                         }
+                        catch
+                        {
+                            // eat it 
+                            success = false;
+                        }
+                        log += (success ? "...success !" : "...FAIL") + "\n";
+
+                        shiurim.Add(shiur);
                     }
                 }
 
