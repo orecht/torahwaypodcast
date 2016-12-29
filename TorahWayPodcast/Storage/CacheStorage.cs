@@ -24,7 +24,7 @@ namespace TorahWayPodcast.Storage
         {
             var cache = HttpContext.Current.Cache;
 
-            cache.Add("shiurim",
+            cache.Insert("shiurim",
                 shiurim,
                 null,
                 DateTime.MaxValue,
