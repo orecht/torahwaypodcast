@@ -21,6 +21,8 @@ Note: elastic IP (EIP) depends on the region.
 
 AWS free tier. opened on 20/12/2016. WIll expire 12 months later. 
 
+http://torahwaypodcast.org.uk/home/parsehtml is called every 15 min by a AWS lambda function
+
 # Operations
 * Feed is at http://torahwaypodcast.org.uk/home/rss2 (default document for http://torahwaypodcast.org.uk/)
 * parsing is processed when http://torahwaypodcast.org.uk/home/parsehtml is called.
@@ -28,12 +30,11 @@ AWS free tier. opened on 20/12/2016. WIll expire 12 months later.
 # Dev environment:
 * ASP.NET MVC 4
 * .NET 4.5 (4.0 would be enough, not using async)
-* no data persistence. 
 
 
 # Ideas for future delvelopment:
 Data persistence. 
- * Everything is loaded in memory. Then lost when IIS appl pool is recycled, which probably happens very often (3 min) in cloud environment.
+ * <s>Everything is loaded in memory. Then lost when IIS appl pool is recycled, which probably happens very often (3 min) in cloud environment.</s>
  * Don't need to use database for persistance at the moment. only 1 table. Might still be best for performance. 
 
 Feed for Edgware branch. (Gatshead sire not updated since 2013)
@@ -42,7 +43,7 @@ Feed for Edgware branch. (Gatshead sire not updated since 2013)
 Feed for Manchester 
 * Completely different HTML. Need to write a different parser.
 
-Add image to feed
+<s>Add image to feed</s> DONE
 
 Add mugshot of the speaker taken from the weekly poster
 * use Azure Cognituve API to detect faces?
