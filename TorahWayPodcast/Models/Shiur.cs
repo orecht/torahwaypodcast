@@ -13,7 +13,7 @@ namespace TorahWayPodcast.Models
         public string Subject { get; set; }
         public string Url { get; set; }
         public long FileSize { get; set; } // in bytes
-        public long Duration { get; set; } // in seconds
+        public TimeSpan Duration { get; set; }
         public DateTime DatePublished { get; set; }
 
         public override int GetHashCode()

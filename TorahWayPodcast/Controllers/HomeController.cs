@@ -106,7 +106,7 @@ namespace TorahWayPodcast.Controllers
                         log += (success ? "...success !" : "...FAIL") + "\n";
 
                         // TODO: get the real duration. Need to download the file and read mp3/wma header
-                        shiur.Duration = new TimeSpan(0, 30, 0).Ticks;  // ~ 30 min
+                        shiur.Duration = new TimeSpan(0, 30, 0);  // ~ 30 min
 
                         // TODO: get real size
                         shiur.FileSize = 10000000; // ~ 10MB
