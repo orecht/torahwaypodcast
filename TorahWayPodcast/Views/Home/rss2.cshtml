@@ -3,11 +3,7 @@
 
 <?xml version="1.0" encoding="utf-8" ?>
 <rss xmlns:atom="http://www.w3.org/2005/Atom"
-     xmlns:dc="http://purl.org/dc/elements/1.1/"
-     xmlns:content="http://purl.org/rss/1.0/modules/content/"
      xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
-     xmlns:dcterms="http://purl.org/dc/terms/"
-     xmlns:wfw="http://wellformedweb.org/CommentAPI/" 
      version="2.0">
     <channel>
         <title>The Torah Way podcast</title>
@@ -65,12 +61,10 @@
                     @Html.Raw("<link>")
                     @s.Url
                     @Html.Raw("</link>")
-                    <dc:creator>(c) The Torah Way NW London</dc:creator>
                     <enclosure url="@s.Url" type="audio/mpeg" length="@s.FileSize" />
-                    <itunes:image href="@Url.Content("Content/torahway_50.png")" />
+                    <itunes:image href="http://@Request.Url.Authority/Content/torahway_1400.png" />
                     <itunes:duration>@s.Duration</itunes:duration>
                     <itunes:explicit>clean</itunes:explicit>
-                    <itunes:order>1</itunes:order>
                     <itunes:summary>
                         @title
                     </itunes:summary>
