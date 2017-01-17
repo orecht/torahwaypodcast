@@ -17,11 +17,11 @@
         </description>
         <language>en-GB</language>
         <generator>Oren's little concoction</generator>
-        <pubdate>@DateTime.Now.ToRFC822Date()</pubdate>
+        <pubDate>@DateTime.Now.ToRFC822Date()</pubDate>
         <image>
             <title>Start your day the Torah Way</title>
             <url>http://@Request.Url.Authority/Content/torahway_1400.png</url>
-            <link>http://torahway.org.uk</link>
+            <link>http://www.torahway.org.uk</link>
         </image>
         <itunes:keywords>
             torah,shirur,rabbi,london
@@ -38,7 +38,7 @@
         </itunes:summary>
         <itunes:category text="Religion &amp; Spirituality">
             <itunes:category text="Judaism" />
-        </itunes:category>>
+        </itunes:category>
 
             <atom:link type="application/rss+xml" href="@Request.Url" rel="self" />
             @foreach (TorahWayPodcast.Models.Shiur s in Model)
@@ -56,18 +56,16 @@
                     <description>
                         @description
                     </description>
-                    <guid ispermalink="true">
-                        @s.Url
+                    <guid>
+                        @s.DatePublished @s.Rav
                     </guid>
                     <comments>
-                        @s.Url
                     </comments>
-                    <pubdate>@s.DatePublished.ToRFC822Date()</pubdate>
+                    <pubDate>@s.DatePublished.ToRFC822Date()</pubDate>
                     @Html.Raw("<link>")
                     @s.Url
                     @Html.Raw("</link>")
                     <dc:creator>(c) The Torah Way NW London</dc:creator>
-                    <itunes:keywords />
                     <enclosure url="@s.Url" type="audio/mpeg" length="@s.FileSize" />
                     <itunes:image href="@Url.Content("Content/torahway_50.png")" />
                     <itunes:duration>@s.Duration</itunes:duration>
@@ -81,5 +79,5 @@
                     </itunes:subtitle>
                 </item>
             }
-        </itunes:category></channel>
+        </channel>
 </rss>
