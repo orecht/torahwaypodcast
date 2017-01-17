@@ -23,7 +23,8 @@ namespace TorahWayPodcast.Models
 
         public override string ToString()
         {
-            return String.Format("{0}{1}{2}", DatePublished.ToShortTimeString(), Rav, Subject);
+            // RSS feed can't have 2 itmes with the same URL. Cf RSS spec. 
+            return Url;
         }
 
         public override bool Equals(object obj)
