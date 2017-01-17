@@ -30,33 +30,6 @@ namespace TorahWayPodcast.Controllers
             return View(Storage.Read().OrderByDescending(s => s.DatePublished)); 
         }
 
-        /*
-        public ActionResult Rss2Feed()
-        {
-            SyndicationFeed feed = new SyndicationFeed();
-            feed.Title = new TextSyndicationContent("The Torah Way podcast");
-            feed.Description = new TextSyndicationContent("Start your day the Torah Way");
-            feed.Links.Add(new SyndicationLink(new Uri("http://www.torahway.org.uk")));
-            feed.Language = "en-GB";
-            feed.Generator = "Oren's little concoction";
-            feed.LastUpdatedTime = DateTime.Now;
-            feed.ImageUrl = new Uri("http://@Request.Url.Authority/Content/torahway_1400.png");
-            feed.AttributeExtensions.Add()
-
-
-            feed.Authors.Add(new SyndicationPerson("someone@microsoft.com"));
-            feed.Categories.Add(new SyndicationCategory("How To Sample Code"));
-            
-
-            SyndicationItem item1 = new SyndicationItem(
-                "Item One",
-                "This is the content for item one",
-                new Uri("http://localhost/Content/One"),
-                "ItemOneID",
-                DateTime.Now);
-
-        }*/
-
         public ActionResult ParseHtml()
         {
             string log = "";  
@@ -67,7 +40,8 @@ namespace TorahWayPodcast.Controllers
                 string requestUrl = "http://www.torahway.org.uk/";
                 string rawHtml = String.Empty;
 
-                Shiurim shiurim = new Shiurim();
+                // Use HashSet to RSS spec says there can't be doublons in an RSS feed. Equality criteria for 2 items is URL as per RSS spec
+                var shiurim = new HashSet<Shiur>();
 
                 HttpWebRequest http = (HttpWebRequest)HttpWebRequest.Create(requestUrl);
                 HttpWebResponse response = (HttpWebResponse)http.GetResponse();
@@ -115,7 +89,7 @@ namespace TorahWayPodcast.Controllers
                     }
                 }
 
-                Storage.Write(shiurim);
+                Storage.Write(new Shiurim(shiurim));
             }
             catch (Exception e)
             {

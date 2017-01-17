@@ -1,6 +1,6 @@
 ﻿namespace TorahWayPodcast.Storage
 {
-    interface IStorage<T>
+    public interface IStorage<T>
     {
         /// <summary>
         /// Read the storage.

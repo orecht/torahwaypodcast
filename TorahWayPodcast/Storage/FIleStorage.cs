@@ -66,5 +66,10 @@ namespace TorahWayPodcast.Storage
 
             FileName = Path.Combine(path, "shiurim.dat");
         }
+
+        public FileStorage(string dataFilePath)
+        {
+            FileName = dataFilePath;
+        }
     }
 }
