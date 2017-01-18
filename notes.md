@@ -33,17 +33,34 @@ http://torahwaypodcast.org.uk/home/parsehtml is called every 15 min by a AWS lam
 
 
 # Ideas for future delvelopment:
+## Shiur File size
+Just do a HEAD request on each URL. Easy!
+## Shiur duration
+Need to download each shiur. Or at least the beginiing of it and read the header.
+
+Need architecture change to update only new shiurim. Can't re-downloadthe whole website every 15 min!
+
+## iTunes feed
+iTunes-specific tags in feed are already supported.
+
+iTunes does NOT support wma file format. But most shiurim are in this format. Supporting iTunes would need:
+* transcoding shiurim from wma to mp3
+* hosting the mp3 shiurin ourselves.
+
 Data persistence. 
  * <s>Everything is loaded in memory. Then lost when IIS appl pool is recycled, which probably happens very often (3 min) in cloud environment.</s>
- * Don't need to use database for persistance at the moment. only 1 table. Might still be best for performance. 
+ * Don't need to use database for persistance at the moment. only 1 table.
+ * Might still be best for performance. 
+ * Probably workth looking into if was have a separate worker trancoding and/or updating shiur duration
 
-Feed for Edgware branch. (Gatshead sire not updated since 2013)
-* Looks like same HTML template. SHould be easy. 
+## Other feeds
+**Edgware branch**: Looks like same HTML template. SHould be easy. 
 
-Feed for Manchester 
-* Completely different HTML. Need to write a different parser.
+**Manchester** Completely different HTML. Need to write a different parser.
 
-<s>Add image to feed</s> DONE
+**Gatshead**: site not updated since 2013
+
+## Crazy (but exciting) ideas:
 
 Add mugshot of the speaker taken from the weekly poster
 * use Azure Cognituve API to detect faces?
