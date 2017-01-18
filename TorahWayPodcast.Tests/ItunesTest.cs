@@ -36,6 +36,7 @@ namespace TorahWayPodcast.Tests
                 Log(string.Format("Testing URL {0} ({1}/{2})", shiur.Url, i++, shiurim.Count));
                 HttpWebRequest http = (HttpWebRequest)HttpWebRequest.Create(shiur.Url);
                 http.Method = "HEAD";
+                http.Timeout = 3000; // 5s 
                 HttpWebResponse response = (HttpWebResponse)http.GetResponse();
 
                 Assert.AreEqual(response.StatusCode, HttpStatusCode.OK, String.Format("{0} has return code of {1}", shiur.Url, response.StatusCode));
