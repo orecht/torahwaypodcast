@@ -59,8 +59,6 @@ namespace TorahWayPodcast.Tests
                         Assert.Fail(shiur.Url + " timed out");
                     }
                 }
-
-                
             }
 
         }
