@@ -29,8 +29,8 @@ namespace TorahWayPodcast.Controllers
             Response.ContentType = "application/xml";
             return View(
                 Storage.Read()
-                .OrderByDescending(s => s.DatePublished
-                )); 
+                .OrderByDescending(s => s.DatePublished)
+                ); 
         }
 
         public ActionResult Mp3Feed()
@@ -39,8 +39,8 @@ namespace TorahWayPodcast.Controllers
             return View("rss2",
                 Storage.Read()
                 .Where(s => s.Url.Contains(".mp3"))
-                .OrderByDescending(s => s.DatePublished
-                ));
+                .OrderByDescending(s => s.DatePublished)
+                );
         }
 
         public ActionResult ParseHtml()
