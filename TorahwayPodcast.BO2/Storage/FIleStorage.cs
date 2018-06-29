@@ -61,6 +61,8 @@ namespace TorahWayPodcast.Storage
 
         public FileStorage()
         {
+            // Won't work in lambda function
+
             // See discussion http://stackoverflow.com/a/4243857/4628203
             string path = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
 
