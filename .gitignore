@@ -5,7 +5,6 @@
 *.suo
 *.user
 *.sln.docstates
-.vs/
 
 
 # Build results
@@ -47,6 +46,9 @@ build/
 *.pidb
 *.log
 *.scc
+
+# Visual Studio 2015/2017 cache/options directory
+.vs/
 
 # Visual C++ cache files
 ipch/
@@ -156,9 +158,14 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
-
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
+
+
+# Elastic Beanstalk Files
+
+.elasticbeanstalk/*
+
+!.elasticbeanstalk/*.cfg.yml
+
+!.elasticbeanstalk/*.global.yml
+
 /TorahWayPodcast/App_Data/shiurim.dat
