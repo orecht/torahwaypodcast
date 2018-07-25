@@ -13,12 +13,20 @@ using TorahWayPodcast.Storage;
 // for debug
 using System.Security.Principal;
 using System.Security.AccessControl;
+using System.ServiceModel.Syndication;
 
 namespace TorahWayPodcast.BO
 {
     public class PodcastManager
     {
-        private IStorage<Shiurim> Storage = new FileStorage();
+        private IStorage<Shiurim> Storage;
+        private ILogger Logger;
+
+        public PodcastManager(IStorage<Shiurim> storage, ILogger logger)
+        {
+            Storage = storage ?? throw new ArgumentNullException(nameof(storage));
+            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
 
         public IEnumerable<Shiur> Rss2()
         {
@@ -33,18 +41,16 @@ namespace TorahWayPodcast.BO
                 .OrderByDescending(s => s.DatePublished);
         }
 
-        public string ParseHtml()
+        public bool ParseHtml()
         {
-            string log = "";  
+            // Use HashSet to RSS spec says there can't be doublons in an RSS feed. Equality criteria for 2 items is URL as per RSS spec
+            var shiurim = new HashSet<Shiur>();
 
             try
             {
                 Uri baseURI = new Uri("http://www.torahway.org.uk/)");
                 string requestUrl = "http://www.torahway.org.uk/";
                 string rawHtml = String.Empty;
-
-                // Use HashSet to RSS spec says there can't be doublons in an RSS feed. Equality criteria for 2 items is URL as per RSS spec
-                var shiurim = new HashSet<Shiur>();
 
                 HttpWebRequest http = (HttpWebRequest)HttpWebRequest.Create(requestUrl);
                 HttpWebResponse response = (HttpWebResponse)http.GetResponse();
@@ -68,7 +74,7 @@ namespace TorahWayPodcast.BO
                         shiur.Url = link.AbsoluteUri;
 
                         System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("en-GB");
-                        log += "parsing date " + strDate;
+                        Logger.Log($"parsing date {strDate}");
                         bool success = true;
                         // Can't use TryParse. there is no TryParse with CultureInfo
                         try
@@ -80,7 +86,7 @@ namespace TorahWayPodcast.BO
                             // eat it 
                             success = false;
                         }
-                        log += (success ? "...success !" : "...FAIL") + "\n";
+                        Logger.Log((success ? "...success !" : "...FAIL") + "\n");
 
                         // TODO: get the real duration. Need to download the file and read mp3/wma header
                         shiur.Duration = new TimeSpan(0, 30, 0);  // ~ 30 min
@@ -92,21 +98,95 @@ namespace TorahWayPodcast.BO
                     }
                 }
 
-                Storage.Write(new Shiurim(shiurim));
+                var uniqueShiurim = new Shiurim(shiurim);
+                Storage.Write(uniqueShiurim);
+
+                return true;
             }
             catch (Exception e)
             {
-                log += "Caught exception:" + e.Message;
+                Logger.Log("Caught exception:" + e.Message);
                 if (e != null && e.InnerException != null)
-                    log += e.InnerException.Message;
-            }
+                    Logger.Log(e.InnerException.Message);
 
-            return log;
+                // Return as many shurim as you can.
+                var uniqueShiurim = new Shiurim(shiurim);
+                Storage.Write(uniqueShiurim);
+
+                return false;
+            }
         }
 
         private string CleanupText(string t)
         {
             return t.Trim(new char[] { '\r', '"' }).Trim();
+        }
+
+        public string GenerateRssFeed(IEnumerable<Shiur> shiurim)
+        {
+            ControllerContext c;
+
+            var feed = new SyndicationFeed
+            {
+                Title = new TextSyndicationContent("The Torah Way podcast"),
+                //Links = new System.Collections.ObjectModel.Collection<SyndicationLink>
+                //{
+                //    new SyndicationLink(new Uri("http://www.torahway.org.uk<"))
+                //},
+                Description = new TextSyndicationContent("Start your day the Torah Way"),
+                Language = "en-GB",
+                Generator = "My little concoction",
+                LastUpdatedTime = DateTime.Now,
+                ImageUrl = new Uri($"~/Content/torahway_1400.png")
+
+
+            };
+        }
+
+        public virtual string RenderViewToString(
+    ControllerContext controllerContext,
+    string viewPath,
+    string masterPath,
+    ViewDataDictionary viewData,
+    TempDataDictionary tempData)
+        {
+            Stream filter = null;
+            ViewPage viewPage = new ViewPage();
+
+            //Right, create our view
+            viewPage.ViewContext = new ViewContext(controllerContext, new WebFormView(viewPath, masterPath), viewData, tempData);
+
+            //Get the response context, flush it and get the response filter.
+            var response = viewPage.ViewContext.HttpContext.Response;
+            response.Flush();
+            var oldFilter = response.Filter;
+
+            try
+            {
+                //Put a new filter into the response
+                filter = new MemoryStream();
+                response.Filter = filter;
+
+                //Now render the view into the memorystream and flush the response
+                viewPage.ViewContext.View.Render(viewPage.ViewContext, viewPage.ViewContext.HttpContext.Response.Output);
+                response.Flush();
+
+                //Now read the rendered view.
+                filter.Position = 0;
+                var reader = new StreamReader(filter, response.ContentEncoding);
+                return reader.ReadToEnd();
+            }
+            finally
+            {
+                //Clean up.
+                if (filter != null)
+                {
+                    filter.Dispose();
+                }
+
+                //Now replace the response filter
+                response.Filter = oldFilter;
+            }
         }
     }
 }
