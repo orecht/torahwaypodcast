@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TorahWayPodcast.AWSLambda",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TorahwayPodcast.BO2", "TorahwayPodcast.BO2\TorahwayPodcast.BO2.csproj", "{07047ACF-E211-4A9C-B7DE-A17621EA2EEC}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TorahWayPodcast.BO2.Test", "TorahWayPodcast.BO2.Test\TorahWayPodcast.BO2.Test.csproj", "{CCD80410-97F7-4ADB-BF93-256500A4A0D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{07047ACF-E211-4A9C-B7DE-A17621EA2EEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07047ACF-E211-4A9C-B7DE-A17621EA2EEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07047ACF-E211-4A9C-B7DE-A17621EA2EEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCD80410-97F7-4ADB-BF93-256500A4A0D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCD80410-97F7-4ADB-BF93-256500A4A0D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCD80410-97F7-4ADB-BF93-256500A4A0D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCD80410-97F7-4ADB-BF93-256500A4A0D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

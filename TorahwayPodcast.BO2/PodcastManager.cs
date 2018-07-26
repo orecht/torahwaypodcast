@@ -5,6 +5,8 @@ using System.Net;
 using System.IO;
 using HtmlAgilityPack;
 
+using System.Threading.Tasks;
+
 using System.Globalization; // for date parsindg
 
 using TorahWayPodcast.Models;
@@ -14,6 +16,7 @@ using TorahWayPodcast.Storage;
 using System.Security.Principal;
 using System.Security.AccessControl;
 using System.ServiceModel.Syndication;
+using RazorLight;
 
 namespace TorahWayPodcast.BO
 {
@@ -122,9 +125,16 @@ namespace TorahWayPodcast.BO
             return t.Trim(new char[] { '\r', '"' }).Trim();
         }
 
-        public string GenerateRssFeed(IEnumerable<Shiur> shiurim)
+        public async Task<string> GenerateRssFeedAsync(IEnumerable<Shiur> shiurim)
         {
-            
+            var engine = new RazorLightEngineBuilder()
+              .UseFilesystemProject("C:/RootFolder/With/YourTemplates")
+              .UseMemoryCachingProvider()
+              .Build();
+
+            string result = await engine.CompileRenderAsync("Subfolder/View.cshtml", shiurim);
+
+            return result;
         }
     }
 }

@@ -18,7 +18,7 @@ namespace TorahWayPodcast.Tests
     {
         Shiurim Shiurim;
 
-        [TestFixtureSetUp]
+        [SetUp]
         public void ReadShiurimFromFile()
         {
             IStorage<Shiurim> Storage = new FileStorage(@"E:\GitHub\torahwaypodcast\TorahWayPodcast.Tests\test_data\shiurim.dat");

@@ -1,0 +1,36 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace TorahWayPodcast.BO2
+{
+    public static class DateTimeExtentionRFC822Format
+    {
+        public static string ToRFC822Date(this DateTime date)
+        {
+
+            int offset = TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).Hours;
+
+            string timeZone = "+" + offset.ToString().PadLeft(2, '0');
+
+
+
+            if (offset < 0)
+            {
+
+                int i = offset * -1;
+
+                timeZone = "-" + i.ToString().PadLeft(2, '0');
+
+            }
+            return date.ToString("ddd, dd MMM yyyy HH:mm:ss " + timeZone.PadRight(5, '0'));
+
+        }
+
+        public static string ToRFC822DateGMT(this DateTime date)
+        {
+            return date.ToString("ddd, dd MMM yyyy HH:mm:ss ")+ "GMT";
+        }
+    }
+}

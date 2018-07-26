@@ -2,15 +2,10 @@ using System;
 using Amazon.Lambda.Core;
 
 using TorahWayPodcast.BO;
-using TorahWayPodcast.Models;
-using TorahWayPodcast.Storage;
-
-// Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
-[assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
 
 namespace TorahWayPodcast.AWSLambda
 {
-    public class Function
+    public partial class Function
     {
         public class LambdaLoggerAdapter : ILogger
         {
@@ -24,21 +19,6 @@ namespace TorahWayPodcast.AWSLambda
             public void Log(string message)
             {
                 _lambdaLogger.LogLine(message);
-            }
-        }
-
-        public class MemoryStorage : IStorage<Shiurim>
-        {
-            private Shiurim _shiurim;
-
-            public Shiurim Read()
-            {
-                return _shiurim;
-            }
-
-            public void Write(Shiurim shiurim)
-            {
-                _shiurim = shiurim;
             }
         }
 
