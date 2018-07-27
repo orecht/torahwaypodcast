@@ -7,6 +7,14 @@ using TorahWayPodcast.Models;
 
 namespace TorahWayPodcast.BO2.Test
 {
+    public class MockLogger : ILogger
+    {
+        public void Log(string message)
+        {
+            // do nothing
+        }
+    }
+
     [TestFixture]
     public class PodcastManagerTest
     {
@@ -19,8 +27,12 @@ namespace TorahWayPodcast.BO2.Test
                 new Shiur { DatePublished = DateTime.Now - new TimeSpan(-1, 0, 0, 0), Rav = "Rav Oren", Duration = new TimeSpan(0, 30, 0), RavPosition = "The boss", Subject = "My view on everything 2 ", Url = "http://orenrecht.co.uk/shiurim/2" },
             };
 
+            Assert.IsNotEmpty(shiurim);
+
             var manager = new PodcastManager(new MemoryStorage(),
-                null);
+                new MockLogger());
+
+            Assert.IsNotNull(manager);
 
             var result = await manager.GenerateRssFeedAsync(shiurim);
 
