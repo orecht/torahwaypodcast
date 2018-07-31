@@ -12,10 +12,6 @@ using System.Globalization; // for date parsindg
 using TorahWayPodcast.Models;
 using TorahWayPodcast.Storage;
 
-// for debug
-using System.Security.Principal;
-using System.Security.AccessControl;
-using System.ServiceModel.Syndication;
 using RazorLight;
 
 namespace TorahWayPodcast.BO
