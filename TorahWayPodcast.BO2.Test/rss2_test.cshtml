@@ -1,0 +1,82 @@
+﻿@using System
+
+@using TorahWayPodcast.BO2
+@model IEnumerable<TorahWayPodcast.Models.Shiur>
+
+<?xml version="1.0" encoding="utf-8" ?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+     version="2.0">
+    <channel>
+        <title>The Torah Way podcast</title>
+        <link>http://www.torahway.org.uk</link>
+        <description>
+            Start your day the Torah Way
+        </description>
+        <language>en-GB</language>
+        <generator>My little concoction</generator>
+        <pubDate>@DateTime.Now.ToRFC822Date()</pubDate>
+        <image>
+            <title>Start your day the Torah Way</title>
+            @*<url>http://Request.Url.Authority/Content/torahway_1400.png</url>*@
+            <link>http://www.torahway.org.uk</link>
+        </image>
+        <itunes:owner>
+            <itunes:name>The Torah Way</itunes:name>
+            <itunes:email>info@torahwaypodcast.org.uk</itunes:email>
+        </itunes:owner>
+        <itunes:keywords>
+            torah,shirur,rabbi,london
+        </itunes:keywords>
+        <itunes:subtitle>
+            Start your day the Torah Way
+        </itunes:subtitle>
+        <itunes:explicit>no</itunes:explicit>
+        <itunes:block>no</itunes:block>
+        @*<itunes:image href="http://@Request.Url.Authority/Content/torahway_1400.png" />*@
+        <itunes:author>(c) The Torah Way NW London</itunes:author>
+        <itunes:summary>Start your day with a 30 minutes torah shiur</itunes:summary>
+        <itunes:category text="Religion &amp; Spirituality">
+            <itunes:category text="Judaism" />
+        </itunes:category>
+
+            @*<atom:link type="application/rss+xml" href="@Request.Url" rel="self" />*@
+            @foreach (TorahWayPodcast.Models.Shiur s in Model)
+            {
+                <item>
+
+                    @{
+                string title = System.Net.WebUtility.HtmlDecode(String.Format("{0}: {1}", s.Rav, s.Subject));
+                string description = String.Format("Shiur given on {0:ddd dd/MM/yyy} for The Torah Way NW London at Kehilas Ohel Moshe.", s.DatePublished);
+                    }
+
+                    <title>
+                        @title
+                    </title>
+                    <description>
+                        @description
+                    </description>
+                    <guid>
+                        @s.Url
+                    </guid>
+                    <comments>
+                        @s.Url
+                    </comments>
+                    <pubDate>@s.DatePublished.ToRFC822Date()</pubDate>
+                    @Raw("<link>")
+                    @s.Url
+                    @Raw("</link>")
+                    <enclosure url="@s.Url" type="audio/mpeg" length="@s.FileSize" />
+                    @*<itunes:image href="http://@Request.Url.Authority/Content/torahway_1400.png" />*@
+                    <itunes:duration>@s.Duration.ToString()</itunes:duration>
+                    <itunes:explicit>clean</itunes:explicit>
+                    <itunes:summary>
+                        @title
+                    </itunes:summary>
+                    <itunes:subtitle>
+                        @description
+                    </itunes:subtitle>
+                </item>
+            }
+        </channel>
+</rss>

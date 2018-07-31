@@ -39,8 +39,6 @@ namespace TorahWayPodcast.BO2.Test
             var viewFile = "rss2_test.cshtml";
 
             Assert.IsTrue(Directory.Exists(dir));
-            Console.WriteLine(dir);
-            Console.WriteLine(string.Join("\n", Directory.GetFiles(dir, "*.*")));
             Assert.IsTrue(File.Exists(Path.Combine(dir, viewFile)));
 
             var resultTask = manager.GenerateRssFeedAsync(shiurim, dir , viewFile);
