@@ -9,7 +9,7 @@ using NUnit.Framework;
 
 using TorahWayPodcast.Models;
 using TorahWayPodcast.Storage;
-
+using System.IO;
 
 namespace TorahWayPodcast.Tests
 {
@@ -21,20 +21,17 @@ namespace TorahWayPodcast.Tests
         [SetUp]
         public void ReadShiurimFromFile()
         {
-            IStorage<Shiurim> Storage = new FileStorage(@"E:\GitHub\torahwaypodcast\TorahWayPodcast.Tests\test_data\shiurim.dat");
+            IStorage<Shiurim> Storage = new FileStorage(Path.Combine(TestContext.CurrentContext.TestDirectory, @"test_data\shiurim.dat"));
             Assert.IsNotNull(Storage);
 
             Shiurim = Storage.Read();
 
             Assert.IsNotNull(Shiurim);
-
-            Log("Shiurim");
-            Log("Shiurim has count of " + Shiurim.Count);
-            Assert.IsTrue(Shiurim.Count > 0);
+            Assert.Greater(Shiurim.Count, 0);
         }
 
         [Test]
-        public void AllUrAreValid()
+        public void AllUrlsAreValid()
         {
             int i = 1;
             foreach (Shiur shiur in Shiurim.OrderBy(x => Guid.NewGuid())) // queryURLs in random order
