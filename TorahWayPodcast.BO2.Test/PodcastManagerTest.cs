@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using TorahWayPodcast.BO;
@@ -19,7 +20,7 @@ namespace TorahWayPodcast.BO2.Test
     public class PodcastManagerTest
     {
         [Test]
-        public async void GenerateRssDoesNotFail()
+        public void GenerateRssDoesNotFail()
         {
             var shiurim = new List<Shiur>()
             {
@@ -34,7 +35,17 @@ namespace TorahWayPodcast.BO2.Test
 
             Assert.IsNotNull(manager);
 
-            var result = await manager.GenerateRssFeedAsync(shiurim);
+            var dir = TestContext.CurrentContext.TestDirectory;
+            var viewFile = "rss2_test.cshtml";
+
+            Assert.IsTrue(Directory.Exists(dir));
+            Console.WriteLine(dir);
+            Console.WriteLine(string.Join("\n", Directory.GetFiles(dir, "*.*")));
+            Assert.IsTrue(File.Exists(Path.Combine(dir, viewFile)));
+
+            var resultTask = manager.GenerateRssFeedAsync(shiurim, dir , viewFile);
+
+            var result = resultTask.Result;
 
             Assert.IsFalse(string.IsNullOrEmpty(result));
         }

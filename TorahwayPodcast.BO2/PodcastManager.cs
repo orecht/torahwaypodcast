@@ -125,14 +125,14 @@ namespace TorahWayPodcast.BO
             return t.Trim(new char[] { '\r', '"' }).Trim();
         }
 
-        public async Task<string> GenerateRssFeedAsync(IEnumerable<Shiur> shiurim)
+        public async Task<string> GenerateRssFeedAsync(IEnumerable<Shiur> shiurim, string rootDir, string viewFilePath)
         {
             var engine = new RazorLightEngineBuilder()
-              .UseFilesystemProject("C:/RootFolder/With/YourTemplates")
+              .UseFilesystemProject(rootDir)
               .UseMemoryCachingProvider()
               .Build();
 
-            string result = await engine.CompileRenderAsync("Subfolder/View.cshtml", shiurim);
+            string result = await engine.CompileRenderAsync(viewFilePath, shiurim);
 
             return result;
         }
