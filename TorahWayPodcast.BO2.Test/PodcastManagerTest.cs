@@ -46,6 +46,7 @@ namespace TorahWayPodcast.BO2.Test
             var result = resultTask.Result;
 
             Assert.IsFalse(string.IsNullOrEmpty(result));
+            Console.WriteLine(result);
         }
     }
 }
