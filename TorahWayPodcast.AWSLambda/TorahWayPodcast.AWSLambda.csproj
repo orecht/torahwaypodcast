@@ -1,28 +1,31 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
+    <AWSProjectType>Lambda</AWSProjectType>
   </PropertyGroup>
-
+  <ItemGroup>
+    <None Remove="rss2.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="rss2.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.Core" Version="1.0.0" />
     <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.3.0" />
     <PackageReference Include="AWSSDK.S3" Version="3.3.19" />
   </ItemGroup>
-
   <ItemGroup>
-    <DotNetCliToolReference Include="Amazon.Lambda.Tools" Version="1.9.0" />
+    <DotNetCliToolReference Include="Amazon.Lambda.Tools" Version="2.2.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\TorahwayPodcast.BO2\TorahwayPodcast.BO2.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Reference Include="System.Web">
       <HintPath>..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Web.dll</HintPath>
     </Reference>
   </ItemGroup>
-
 </Project>
