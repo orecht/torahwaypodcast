@@ -26,7 +26,6 @@ namespace TorahWayPodcast.AWSLambda
         /// <summary>
         /// Parse the torah way website and writes the extracted data to file
         /// </summary>
-        /// <param name="input"></param>
         /// <param name="context"></param>
         /// <returns></returns>
         public string FunctionHandler(ILambdaContext context)
@@ -56,6 +55,7 @@ namespace TorahWayPodcast.AWSLambda
                 var resultTask = manager.GenerateRssFeedAsync(manager.Rss2(), dir, viewFile);
                 logger.Log("END Running manager.GenerateRssFeedAsync");
                 var result = resultTask.Result;
+                logger.Log("After resultTask.Result");
 
                 return "OK";
             }
