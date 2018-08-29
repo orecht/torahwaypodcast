@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using Amazon.Lambda.Core;
 
 using TorahWayPodcast.BO;
@@ -28,7 +29,7 @@ namespace TorahWayPodcast.AWSLambda
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public string FunctionHandler(ILambdaContext context)
+        public void FunctionHandler(ILambdaContext context)
         {
             ILogger logger = new LambdaLoggerAdapter(context.Logger);
 
@@ -54,17 +55,16 @@ namespace TorahWayPodcast.AWSLambda
                 logger.Log("Running manager.GenerateRssFeedAsync");
                 var resultTask = manager.GenerateRssFeedAsync(manager.Rss2(), dir, viewFile);
                 logger.Log("END Running manager.GenerateRssFeedAsync");
-                var result = resultTask.Result;
-                logger.Log("After resultTask.Result");
-
-                return "OK";
+                //var result = resultTask.Result;
+                //logger.Log("After resultTask.Result");
             }
             catch (Exception e)
             {
                 string message = $"Failed: {e.Message} at {e.StackTrace}";
                 logger.Log(message);
-                return message;
             }
+
+            return;
         }
 
     }
