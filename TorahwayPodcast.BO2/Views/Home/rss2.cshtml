@@ -1,5 +1,4 @@
 ﻿@using System
-
 @using TorahWayPodcast.BO2
 @model IEnumerable<TorahWayPodcast.Models.Shiur>
 
@@ -18,7 +17,7 @@
         <pubDate>@DateTime.Now.ToRFC822Date()</pubDate>
         <image>
             <title>Start your day the Torah Way</title>
-            <url>http://Request.Url.Authority/Content/torahway_1400.png</url>
+            <url>http://@Request.Url.Authority/Content/torahway_1400.png</url>
             <link>http://www.torahway.org.uk</link>
         </image>
         <itunes:owner>

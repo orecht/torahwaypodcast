@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Amazon.Lambda.Core;
@@ -29,7 +30,7 @@ namespace TorahWayPodcast.AWSLambda
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public void FunctionHandler(ILambdaContext context)
+        public async Task FunctionHandler(ILambdaContext context)
         {
             ILogger logger = new LambdaLoggerAdapter(context.Logger);
 
@@ -37,6 +38,8 @@ namespace TorahWayPodcast.AWSLambda
 
             try
             {
+                var dir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath);
+
                 var storageShiurum = new MemoryStorage();
 
                 logger.Log("storageShiurum created");
@@ -48,15 +51,13 @@ namespace TorahWayPodcast.AWSLambda
                 manager.ParseHtml();
                 logger.Log("END running manager.ParseHtml()");
 
-                var dir = Assembly.GetExecutingAssembly().CodeBase;
                 var viewFile = "rss2.cshtml";
 
                 // Write RSS feed
                 logger.Log("Running manager.GenerateRssFeedAsync");
-                var resultTask = manager.GenerateRssFeedAsync(manager.Rss2(), dir, viewFile);
+                var generatedRss = await manager.GenerateRssFeedAsync(manager.Rss2(), dir, viewFile);
                 logger.Log("END Running manager.GenerateRssFeedAsync");
-                //var result = resultTask.Result;
-                //logger.Log("After resultTask.Result");
+                logger.Log(generatedRss);
             }
             catch (Exception e)
             {
