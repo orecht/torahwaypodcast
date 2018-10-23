@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Amazon.Lambda.Core;
 
 using TorahWayPodcast.BO;
+using TorahWayPodcast.BO2;
+using TorahWayPodcast.Models;
 
 namespace TorahWayPodcast.AWSLambda
 {
@@ -54,8 +56,15 @@ namespace TorahWayPodcast.AWSLambda
                 var viewFile = "rss2.cshtml";
 
                 // Write RSS feed
+                var shiurim = manager.Rss2();
+                var model = new ShiurimViewModel()
+                {
+                    Shiurim = new Shiurim(shiurim),
+                    RequestUri = new Uri("http://www.torahwaypodcast.org.uk")
+                };
+
                 logger.Log("Running manager.GenerateRssFeedAsync");
-                var generatedRss = await manager.GenerateRssFeedAsync(manager.Rss2(), dir, viewFile);
+                var generatedRss = await manager.GenerateRssFeedAsync(model, dir, viewFile);
                 logger.Log("END Running manager.GenerateRssFeedAsync");
                 logger.Log(generatedRss);
             }
