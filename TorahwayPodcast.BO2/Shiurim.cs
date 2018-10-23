@@ -18,5 +18,11 @@ namespace TorahWayPodcast.Models
         public Shiurim(HashSet<Shiur> hashset)
             : base (hashset)
         { }
+
+        public Shiurim(IEnumerable<Shiur> list)
+            : base(list)
+        { }
+
+
     }
 }

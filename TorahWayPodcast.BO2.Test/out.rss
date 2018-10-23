@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+     version="2.0">
+    <channel>
+        <title>The Torah Way podcast</title>
+        <link>http://www.torahway.org.uk</link>
+        <description>
+            Start your day the Torah Way
+        </description>
+        <language>en-GB</language>
+        <generator>My little concoction</generator>
+        <pubDate>Tue, 23 Oct 2018 23:00:39 +0100</pubDate>
+        <image>
+            <title>Start your day the Torah Way</title>
+            <url>http://www.torahwaypodcast.org.uk/Content/torahway_1400.png</url>
+            <link>http://www.torahway.org.uk</link>
+        </image>
+        <itunes:owner>
+            <itunes:name>The Torah Way</itunes:name>
+            <itunes:email>info@torahwaypodcast.org.uk</itunes:email>
+        </itunes:owner>
+        <itunes:keywords>
+            torah,shirur,rabbi,london
+        </itunes:keywords>
+        <itunes:subtitle>
+            Start your day the Torah Way
+        </itunes:subtitle>
+        <itunes:explicit>no</itunes:explicit>
+        <itunes:block>no</itunes:block>
+        <itunes:image href="http://www.torahwaypodcast.org.uk/Content/torahway_1400.png" />
+        <itunes:author>(c) The Torah Way NW London</itunes:author>
+        <itunes:summary>Start your day with a 30 minutes torah shiur</itunes:summary>
+        <itunes:category text="Religion &amp; Spirituality">
+            <itunes:category text="Judaism" />
+        </itunes:category>
+
+        <atom:link type="application/rss+xml" href="http://www.torahwaypodcast.org.uk/" rel="self" />
+            <item>
+
+
+                <title>
+                    Rav Oren: My view on everything
+                </title>
+                <description>
+                    Shiur given on Tue 23/10/2018 for The Torah Way NW London at Kehilas Ohel Moshe.
+                </description>
+                <guid>
+                    http://orenrecht.co.uk/shiurim/1
+                </guid>
+                <comments>
+                    http://orenrecht.co.uk/shiurim/1
+                </comments>
+                <pubDate>Tue, 23 Oct 2018 23:00:37 &#x2B;0100</pubDate>
+                <link>
+                http://orenrecht.co.uk/shiurim/1
+                </link>
+                <enclosure url="http://orenrecht.co.uk/shiurim/1" type="audio/mpeg" length="0" />
+                <itunes:image href="http://www.torahwaypodcast.org.uk/Content/torahway_1400.png" />
+                <itunes:duration>00:30:00</itunes:duration>
+                <itunes:explicit>clean</itunes:explicit>
+                <itunes:summary>
+                    Rav Oren: My view on everything
+                </itunes:summary>
+                <itunes:subtitle>
+                    Shiur given on Tue 23/10/2018 for The Torah Way NW London at Kehilas Ohel Moshe.
+                </itunes:subtitle>
+            </item>
+            <item>
+
+
+                <title>
+                    Rav Oren: My view on everything 2 
+                </title>
+                <description>
+                    Shiur given on Wed 24/10/2018 for The Torah Way NW London at Kehilas Ohel Moshe.
+                </description>
+                <guid>
+                    http://orenrecht.co.uk/shiurim/2
+                </guid>
+                <comments>
+                    http://orenrecht.co.uk/shiurim/2
+                </comments>
+                <pubDate>Wed, 24 Oct 2018 23:00:37 &#x2B;0100</pubDate>
+                <link>
+                http://orenrecht.co.uk/shiurim/2
+                </link>
+                <enclosure url="http://orenrecht.co.uk/shiurim/2" type="audio/mpeg" length="0" />
+                <itunes:image href="http://www.torahwaypodcast.org.uk/Content/torahway_1400.png" />
+                <itunes:duration>00:30:00</itunes:duration>
+                <itunes:explicit>clean</itunes:explicit>
+                <itunes:summary>
+                    Rav Oren: My view on everything 2 
+                </itunes:summary>
+                <itunes:subtitle>
+                    Shiur given on Wed 24/10/2018 for The Torah Way NW London at Kehilas Ohel Moshe.
+                </itunes:subtitle>
+            </item>
+    </channel>
+</rss>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using TorahWayPodcast.BO;
@@ -28,6 +29,12 @@ namespace TorahWayPodcast.BO2.Test
                 new Shiur { DatePublished = DateTime.Now - new TimeSpan(-1, 0, 0, 0), Rav = "Rav Oren", Duration = new TimeSpan(0, 30, 0), RavPosition = "The boss", Subject = "My view on everything 2 ", Url = "http://orenrecht.co.uk/shiurim/2" },
             };
 
+            var model = new ShiurimViewModel()
+            {
+                Shiurim = new Shiurim(shiurim.ToList()),
+                RequestUri = new Uri("http://www.torahwaypodcast.org.uk")
+            };
+
             Assert.IsNotEmpty(shiurim);
 
             var manager = new PodcastManager(new MemoryStorage(),
@@ -41,9 +48,8 @@ namespace TorahWayPodcast.BO2.Test
             Assert.IsTrue(Directory.Exists(dir));
             Assert.IsTrue(File.Exists(Path.Combine(dir, viewFile)));
 
-            var resultTask = manager.GenerateRssFeedAsync(shiurim, dir , viewFile);
-
-            var result = resultTask.Result;
+            var task  = manager.GenerateRssFeedAsync(model, dir , viewFile);
+            var result = task.Result;
 
             Assert.IsFalse(string.IsNullOrEmpty(result));
             Console.WriteLine(result);

@@ -13,6 +13,7 @@ using TorahWayPodcast.Models;
 using TorahWayPodcast.Storage;
 
 using RazorLight;
+using TorahWayPodcast.BO2;
 
 namespace TorahWayPodcast.BO
 {
@@ -121,34 +122,14 @@ namespace TorahWayPodcast.BO
             return t.Trim(new char[] { '\r', '"' }).Trim();
         }
 
-        public async Task<string> GenerateRssFeedAsync(IEnumerable<Shiur> shiurim, string rootDir, string viewFilePath)
+        public async Task<string> GenerateRssFeedAsync(ShiurimViewModel model, string rootDir, string viewFilePath)
         {
             var engine = new RazorLightEngineBuilder()
               .UseFilesystemProject(rootDir)
               .UseMemoryCachingProvider()
               .Build();
 
-            string result = await engine.CompileRenderAsync(viewFilePath, shiurim);
-
-            return result;
-        }
-
-        public async Task<string> GenerateRssFeedNoFileAsync(IEnumerable<Shiur> model, string template)
-        {
-            var engine = new RazorLightEngineBuilder()
-              .UseMemoryCachingProvider()
-              .Build();
-
-            string result = null;
-            var cacheResult = engine.TemplateCache.RetrieveTemplate("templateKey");
-            if (cacheResult.Success)
-            {
-                result = await engine.RenderTemplateAsync(cacheResult.Template.TemplatePageFactory(), model);
-            }
-            else
-            {
-                result = await engine.CompileRenderAsync("templateKey", template, model);
-            }
+            string result = await engine.CompileRenderAsync(viewFilePath, model);
 
             return result;
         }
