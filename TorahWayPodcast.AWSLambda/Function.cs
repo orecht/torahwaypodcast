@@ -40,10 +40,7 @@ namespace TorahWayPodcast.AWSLambda
 
             try
             {
-                var dir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath);
-
                 var storageShiurum = new MemoryStorage();
-
                 logger.Log("storageShiurum created");
 
                 // Gather shiurim list from torah way website
@@ -53,9 +50,7 @@ namespace TorahWayPodcast.AWSLambda
                 manager.ParseHtml();
                 logger.Log("END running manager.ParseHtml()");
 
-                var viewFile = "rss2.cshtml";
-
-                // Write RSS feed
+                // Generate RSS feed text
                 var shiurim = manager.Rss2();
                 var model = new ShiurimViewModel()
                 {
@@ -63,10 +58,16 @@ namespace TorahWayPodcast.AWSLambda
                     RequestUri = new Uri("http://www.torahwaypodcast.org.uk")
                 };
 
+                var dir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath);
+                var viewFile = "rss2.cshtml";
+
                 logger.Log("Running manager.GenerateRssFeedAsync");
                 var generatedRss = await manager.GenerateRssFeedAsync(model, dir, viewFile);
                 logger.Log("END Running manager.GenerateRssFeedAsync");
                 logger.Log(generatedRss);
+
+                // Save RRS feed text to file in S3
+
             }
             catch (Exception e)
             {
