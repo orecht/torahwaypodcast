@@ -2,8 +2,10 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using Amazon;
 using Amazon.Lambda.Core;
-
+using Amazon.S3;
+using Amazon.S3.Model;
 using TorahWayPodcast.BO;
 using TorahWayPodcast.BO2;
 using TorahWayPodcast.Models;
@@ -27,6 +29,14 @@ namespace TorahWayPodcast.AWSLambda
             }
         }
 
+        public class NilLogger : ILogger
+        {
+            public void Log(string message)
+            {
+                // do nothing
+            }
+        }
+
         /// <summary>
         /// Parse the torah way website and writes the extracted data to file
         /// </summary>
@@ -44,7 +54,7 @@ namespace TorahWayPodcast.AWSLambda
                 logger.Log("storageShiurum created");
 
                 // Gather shiurim list from torah way website
-                var manager = new PodcastManager(storageShiurum, logger);
+                var manager = new PodcastManager(storageShiurum, new NilLogger()); // no logging
                 logger.Log("PodcastManager created.");
                 logger.Log("Running manager.ParseHtml()");
                 manager.ParseHtml();
@@ -64,10 +74,23 @@ namespace TorahWayPodcast.AWSLambda
                 logger.Log("Running manager.GenerateRssFeedAsync");
                 var generatedRss = await manager.GenerateRssFeedAsync(model, dir, viewFile);
                 logger.Log("END Running manager.GenerateRssFeedAsync");
-                logger.Log(generatedRss);
+                //logger.Log(generatedRss);
 
                 // Save RRS feed text to file in S3
+                RegionEndpoint bucketRegion = RegionEndpoint.EUWest1;
+                var client = new AmazonS3Client(bucketRegion);
+                var putRequest1 = new PutObjectRequest
+                {
+                    BucketName = "torahwaypodcast",
+                    Key = "rss.xml",
+                    ContentBody = generatedRss,
+                    ContentType = "application / xml"
+                };
 
+                logger.Log("Running PutObjectAsync");
+                PutObjectResponse response1 = await client.PutObjectAsync(putRequest1);
+                logger.Log("END Running PutObjectAsync");
+                logger.Log($"response1.HttpStatusCode: {response1.HttpStatusCode}");
             }
             catch (Exception e)
             {
