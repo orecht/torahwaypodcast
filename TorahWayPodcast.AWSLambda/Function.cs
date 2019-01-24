@@ -76,13 +76,17 @@ namespace TorahWayPodcast.AWSLambda
                 logger.Log("END Running manager.GenerateRssFeedAsync");
                 //logger.Log(generatedRss);
 
+                string bucketName = Environment.GetEnvironmentVariable("BucketName");
+                string rssFileName = Environment.GetEnvironmentVariable("RssFileName");
+                logger.Log($"Writing file {rssFileName} to bucket {bucketName}");
+
                 // Save RRS feed text to file in S3
                 RegionEndpoint bucketRegion = RegionEndpoint.EUWest1;
                 var client = new AmazonS3Client(bucketRegion); // TODO. Add credentials or access token for authentication
                 var putRequest1 = new PutObjectRequest
                 {
-                    BucketName = "torahwaypodcast.org.uk",
-                    Key = "rss.xml",
+                    BucketName = bucketName,
+                    Key = rssFileName,
                     ContentBody = generatedRss,
                     ContentType = "application/xml"
                 };
