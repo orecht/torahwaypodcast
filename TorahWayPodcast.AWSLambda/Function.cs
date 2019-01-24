@@ -81,7 +81,7 @@ namespace TorahWayPodcast.AWSLambda
                 var client = new AmazonS3Client(bucketRegion); // TODO. Add credentials or access token for authentication
                 var putRequest1 = new PutObjectRequest
                 {
-                    BucketName = "torahwaypodcast",
+                    BucketName = "torahwaypodcast.org.uk",
                     Key = "rss.xml",
                     ContentBody = generatedRss,
                     ContentType = "application/xml"
