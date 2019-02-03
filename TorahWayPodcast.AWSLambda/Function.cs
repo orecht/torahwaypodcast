@@ -82,17 +82,18 @@ namespace TorahWayPodcast.AWSLambda
 
                 // Save RRS feed text to file in S3
                 RegionEndpoint bucketRegion = RegionEndpoint.EUWest1;
-                var client = new AmazonS3Client(bucketRegion); // TODO. Add credentials or access token for authentication
+                var client = new AmazonS3Client(bucketRegion);
                 var putRequest1 = new PutObjectRequest
                 {
                     BucketName = bucketName,
                     Key = rssFileName,
                     ContentBody = generatedRss,
-                    ContentType = "application/xml"
+                    ContentType = "application/xml",
+                    CannedACL = S3CannedACL.PublicRead
                 };
 
                 logger.Log("Running PutObjectAsync");
-                PutObjectResponse response1 = await client.PutObjectAsync(putRequest1);
+                var response1 = await client.PutObjectAsync(putRequest1);
                 logger.Log("END Running PutObjectAsync");
                 logger.Log($"response1.HttpStatusCode: {response1.HttpStatusCode}");
             }
