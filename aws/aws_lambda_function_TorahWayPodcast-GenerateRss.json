@@ -1,0 +1,34 @@
+{
+    "Code": {
+        "RepositoryType": "S3", 
+        "Location": "https://awslambda-eu-west-1-tasks.s3.eu-west-1.amazonaws.com/snapshots/771320127819/TorahWayPodcast-GenerateRss-a0140ff6-6208-4510-9370-0956337c1f4d?versionId=wCRwKeRqUaaTZtQr7sbcRQhzraGlhTtC&X-Amz-Security-Token=FQoGZXIvYXdzEIP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDATqcW6mxCO0EzzbfiK3AwrwlvQzpQ%2FA585SiExchDOF40M3mh4P1PDqDfVxF8CUhHYaEuw2JbgA3BIHv1laH55mOtRC65yxf6VsTKfHO0RImesmwDoLQ%2FpCsePYFzKwOGxa%2ByMQC4KgmP3LGcVPiNmonQCNo2MvNDbgTCKW0TBtukSpueIViNdsI0Lt8nccYfsAsQmp%2B43WRValv5rct7oUB6PgQYsyVOtkvw40C%2Bjn7f2N7XJsrR1yG9TwnLOfCCdmXMoHYI1zt%2BgLWG5oCfpD0zTuKa%2FrwCnhNqHT8QUMbxPy0MBo4od4KmdRSaVHy8OiQI7cXFS9s%2BeRERMMK7lxVmBEg5ZKDiL%2Fh%2FkW4vuoiosl9ohp6fWgLM1BDMqQ5tTLPcuGH7zTgR4mCldgP4firJFZi8JzGAlic1XrYjDHqpNtHnyoAAwrWFKHm9lvRdqLjA1LC4tfOEECZFjGkwyJeyo4qdklNUAHXxYXCM75bAwq9ZLFJgTDBzZ6HByoTWv9U18%2BhK8JPoqH82toPdYyFBSljAaHnSUFc3Stf093DndLvFaYhs0B8pP4xzbmfITIWU2fBWVMjdoXkNl76AeSDzQsdVkonILZ4gU%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20190203T013049Z&X-Amz-SignedHeaders=host&X-Amz-Expires=600&X-Amz-Credential=ASIA54NGUQSHRV3CYGEV%2F20190203%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Signature=11df53a63eec029e83c7ca31022e1eedb510daf4d79fcc9c32d7f5f04a60ebb2"
+    }, 
+    "Configuration": {
+        "TracingConfig": {
+            "Mode": "PassThrough"
+        }, 
+        "Version": "$LATEST", 
+        "CodeSha256": "xLekkDx9X3LUXuhkzoJ11C0G3knX2Xj0/lKb3IwRa/k=", 
+        "FunctionName": "TorahWayPodcast-GenerateRss", 
+        "VpcConfig": {
+            "SubnetIds": [], 
+            "VpcId": "", 
+            "SecurityGroupIds": []
+        }, 
+        "MemorySize": 512, 
+        "CodeSize": 7213284, 
+        "FunctionArn": "arn:aws:lambda:eu-west-1:771320127819:function:TorahWayPodcast-GenerateRss", 
+        "Environment": {
+            "Variables": {
+                "RssFileName": "rss.xml", 
+                "BucketName": "rss.torahwaypodcast.org.uk"
+            }
+        }, 
+        "Handler": "TorahWayPodcast.AWSLambda::TorahWayPodcast.AWSLambda.Function::FunctionHandler", 
+        "Role": "arn:aws:iam::771320127819:role/service-role/torahwaypodcast_read", 
+        "Timeout": 61, 
+        "LastModified": "2019-02-03T01:22:46.047+0000", 
+        "Runtime": "dotnetcore2.0", 
+        "Description": ""
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "Role": {
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17", 
+            "Statement": [
+                {
+                    "Action": "sts:AssumeRole", 
+                    "Effect": "Allow", 
+                    "Principal": {
+                        "Service": "lambda.amazonaws.com"
+                    }
+                }
+            ]
+        }, 
+        "RoleId": "AROAJJT5MFJL3A3USQP2E", 
+        "CreateDate": "2017-12-11T23:55:16Z", 
+        "RoleName": "torahwaypodcast_read", 
+        "Path": "/service-role/", 
+        "Arn": "arn:aws:iam::771320127819:role/service-role/torahwaypodcast_read"
+    }
+}
