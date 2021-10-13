@@ -39,7 +39,7 @@ steps:
   displayName: 'Publish symbols path'
   inputs:
     SearchPattern: '**\bin\**\*.pdb'
-    PublishSymbols: true
+    PublishSymbols: false
   continueOnError: true
 
 - task: PublishBuildArtifacts@1
