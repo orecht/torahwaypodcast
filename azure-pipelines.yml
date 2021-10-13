@@ -23,7 +23,6 @@ steps:
 - task: VSBuild@1
   displayName: 'Build solution'
   inputs:
-    vsVersion: 15.0
     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\\"'
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
@@ -31,22 +30,17 @@ steps:
 - task: VSTest@2
   displayName: 'Test Assemblies'
   inputs:
-    vsTestVersion: 15.0
     runInParallel: false
     codeCoverageEnabled: false
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
 
-
-
 - task: PublishSymbols@2
   displayName: 'Publish symbols path'
   inputs:
     SearchPattern: '**\bin\**\*.pdb'
-    PublishSymbols: false
+    PublishSymbols: true
   continueOnError: true
-
-
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
