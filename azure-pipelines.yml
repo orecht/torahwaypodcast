@@ -4,11 +4,9 @@ trigger:
 pool:
   vmImage: windows-latest
 
-
 variables:
   BuildPlatform: 'Any CPU'
   BuildConfiguration: Release
-
 
 steps:
 - task: NuGetToolInstaller@0
@@ -17,14 +15,10 @@ steps:
     versionSpec: 4.3.0
     checkLatest: true
 
-
-
 - task: NuGetCommand@2
   displayName: 'NuGet restore'
   inputs:
     restoreSolution: '**\*.sln'
-
-
 
 - task: VSBuild@1
   displayName: 'Build solution'
@@ -33,8 +27,6 @@ steps:
     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\\"'
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
-
-
 
 - task: VSTest@2
   displayName: 'Test Assemblies'
