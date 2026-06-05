@@ -6,10 +6,15 @@ pool:
 
 variables:
   BuildConfiguration: Release
+  LambdaProject: TorahWayPodcast.AWSLambda/TorahWayPodcast.AWSLambda.csproj
+
+# Required pipeline secret variables (set in Azure Pipelines > Library):
+#   AWS_ACCESS_KEY_ID     - IAM access key with lambda:UpdateFunctionCode permission
+#   AWS_SECRET_ACCESS_KEY - corresponding secret key
 
 steps:
 - task: UseDotNet@2
-  displayName: 'Use .NET SDK'
+  displayName: 'Use .NET 8 SDK'
   inputs:
     useGlobalJson: false
     version: '8.x'
@@ -22,3 +27,12 @@ steps:
 
 - script: dotnet test TorahWayPodcast.sln --configuration $(BuildConfiguration) --no-build --verbosity normal
   displayName: 'Run tests'
+
+- script: dotnet tool install -g Amazon.Lambda.Tools
+  displayName: 'Install Amazon Lambda Tools'
+
+- script: dotnet lambda deploy-function --project-location TorahWayPodcast.AWSLambda --configuration $(BuildConfiguration)
+  displayName: 'Deploy to AWS Lambda'
+  env:
+    AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+    AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
