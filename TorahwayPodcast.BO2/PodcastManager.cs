@@ -125,7 +125,7 @@ namespace TorahWayPodcast.BO
         public async Task<string> GenerateRssFeedAsync(ShiurimViewModel model, string rootDir, string viewFilePath)
         {
             var engine = new RazorLightEngineBuilder()
-              .UseFilesystemProject(rootDir)
+              .UseFileSystemProject(rootDir)
               .UseMemoryCachingProvider()
               .Build();
 
