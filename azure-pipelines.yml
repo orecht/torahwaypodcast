@@ -2,50 +2,23 @@ trigger:
 - master
 
 pool:
-  vmImage: vs2017-win2016
+  vmImage: ubuntu-latest
 
 variables:
-  BuildPlatform: 'Any CPU'
   BuildConfiguration: Release
 
 steps:
-- task: NuGetToolInstaller@0
-  displayName: 'Use NuGet 4.3.0'
+- task: UseDotNet@2
+  displayName: 'Use .NET SDK'
   inputs:
-    versionSpec: 4.3.0
-    checkLatest: true
+    useGlobalJson: false
+    version: '8.x'
 
-- task: NuGetCommand@2
-  displayName: 'NuGet restore'
-  inputs:
-    restoreSolution: '**\*.sln'
+- script: dotnet restore TorahWayPodcast.sln
+  displayName: 'Restore NuGet packages'
 
-- task: VSBuild@1
+- script: dotnet build TorahWayPodcast.sln --configuration $(BuildConfiguration) --no-restore
   displayName: 'Build solution'
-  inputs:
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\\"'
-    platform: '$(BuildPlatform)'
-    configuration: '$(BuildConfiguration)'
 
-- task: VSTest@2
-  displayName: 'Test Assemblies'
-  inputs:
-    runInParallel: false
-    codeCoverageEnabled: false
-    platform: '$(BuildPlatform)'
-    configuration: '$(BuildConfiguration)'
-
-- task: PublishSymbols@2
-  displayName: 'Publish symbols path'
-  inputs:
-    SearchPattern: '**\bin\**\*.pdb'
-    PublishSymbols: false
-  continueOnError: true
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact'
-  inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'
-
-
-
+- script: dotnet test TorahWayPodcast.sln --configuration $(BuildConfiguration) --no-build --verbosity normal
+  displayName: 'Run tests'
